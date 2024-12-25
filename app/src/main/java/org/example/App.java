@@ -3,13 +3,15 @@
  */
 package org.example;
 
+import org.example.async.RequestHandler;
+import org.example.async.RequestHandlerFactory;
+
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 public class App {
     public String getGreeting() {
-        return "Hello World!";
+        return "Hello My-Redis World!";
     }
 
     private static final int PORT = 9000;
@@ -18,26 +20,8 @@ public class App {
 
         System.out.println(new App().getGreeting());
 
-        String serverAddress = "127.0.0.1"; // localhost
-        int port = 5000; // Same port as the server
-
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            System.out.println("Server is listening on port " + PORT);
-
-            while (true) {
-                // Wait for client connection
-                Socket clientSocket = serverSocket.accept();
-                System.out.println("New client connected: " + clientSocket.getInetAddress().getHostAddress());
-
-                // Create a new thread for each client
-                RedisClientHandler clientHandler = new RedisClientHandler(clientSocket);
-                new Thread(clientHandler).start();
-            }
-
-        } catch (IOException e) {
-            System.err.println("Server exception: " + e.getMessage());
-            e.printStackTrace();
-        }
+        RequestHandler requestHandler = RequestHandlerFactory.getHandler();
+        requestHandler.handleRequests();
     }
 }
 
