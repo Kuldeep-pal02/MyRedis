@@ -1,6 +1,8 @@
 package org.example.async.multithreaded;
 
 import org.example.async.RequestHandler;
+import org.example.customlog.LoggerFactory;
+import org.example.customlog.MyLogger;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -11,8 +13,10 @@ public class MultiThreadedMyRedisClientHandler implements RequestHandler {
 
     private int SERVER_PORT = 0;
 
+    private static MyLogger logger = LoggerFactory.getLoggerInstance();
     public MultiThreadedMyRedisClientHandler( int portNumber ){
         this.SERVER_PORT = portNumber;
+        logger.logMessage( "Multithreaded Server is starting at port : "+ SERVER_PORT);
     }
 
 

@@ -42,3 +42,15 @@ application {
     // Define the main class for the application.
     mainClass = 'org.example.App'
 }
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}
+
