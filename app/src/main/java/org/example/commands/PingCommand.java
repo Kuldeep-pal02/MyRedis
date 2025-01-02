@@ -1,10 +1,14 @@
 package org.example.commands;
 
+import org.example.resp.RESPUtils;
+
 public class PingCommand implements IRedisCommand{
 
 
     @Override
     public String execute(String[] args) {
-        return "+PONG\r\n";
+
+        return RESPUtils.encodeSimpleString( "PONG");
+
     }
 }

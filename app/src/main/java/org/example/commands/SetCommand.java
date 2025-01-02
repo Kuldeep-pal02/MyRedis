@@ -2,6 +2,7 @@ package org.example.commands;
 
 import org.example.datastore.CustomMyRedisObject;
 import org.example.datastore.IDataStore;
+import org.example.resp.RESPUtils;
 
 public class SetCommand implements IRedisCommand{
 
@@ -11,7 +12,8 @@ public class SetCommand implements IRedisCommand{
     public String execute(String[] args) {
         if (args.length < 2) {
             // Return error if there aren't enough arguments
-            return "-ERR wrong number of arguments for 'SET' command\r\n";
+            return RESPUtils.encodeError("ERR wrong number of arguments for 'SET' command");
+            //return "-ERR wrong number of arguments for 'SET' command\r\n";
         }
 
         try {
@@ -26,7 +28,8 @@ public class SetCommand implements IRedisCommand{
                 try {
                     ttl = Long.parseLong(args[2]);
                 } catch (NumberFormatException e) {
-                    return "-ERR invalid TTL value\r\n";
+                    return RESPUtils.encodeError("ERR invalid TTL value");
+                    //return "-ERR invalid TTL value\r\n";
                 }
                 // Add the key-value pair with TTL
                 CustomMyRedisObject redisObject = new CustomMyRedisObject();
@@ -41,9 +44,11 @@ public class SetCommand implements IRedisCommand{
             }
 
             // Return success response
-            return "+OK\r\n";
+            return RESPUtils.encodeSimpleString("OK");
+            //return "+OK\r\n";
         } catch (ClassCastException e) {
-            return "-ERR invalid key or value type\r\n";
+            return RESPUtils.encodeError("ERR invalid key or value type");
+            //return "-ERR invalid key or value type\r\n";
         }
     }
     public SetCommand(IDataStore dataStore){

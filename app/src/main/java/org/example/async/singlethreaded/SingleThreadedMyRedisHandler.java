@@ -5,6 +5,7 @@ import org.example.commands.CommandRegistry;
 import org.example.commands.IRedisCommand;
 import org.example.customlog.LoggerFactory;
 import org.example.customlog.MyLogger;
+import org.example.resp.RESPUtils;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -25,7 +26,6 @@ public class SingleThreadedMyRedisHandler implements RequestHandler {
         this.SERVER_PORT = port;
         logger.logMessage( "SingleThreaded Server is starting at port : "+ SERVER_PORT);
         CommandRegistry.initCommandRegistry();
-
     }
 
 
@@ -54,7 +54,7 @@ public class SingleThreadedMyRedisHandler implements RequestHandler {
                     if (key.isAcceptable()) {
                         handleAccept(selector, key);
                     } else if (key.isReadable()) {
-                        handleRead(key);
+                        handleClientRequest(key);
                     }
                 }
             }
@@ -76,7 +76,7 @@ public class SingleThreadedMyRedisHandler implements RequestHandler {
         System.out.println("New client connected: " + clientChannel.getRemoteAddress());
     }
 
-    private void handleRead(SelectionKey key) {
+    private void handleClientRequest(SelectionKey key) {
         SocketChannel clientChannel = (SocketChannel) key.channel();
         ByteBuffer buffer = (ByteBuffer) key.attachment();
 
@@ -148,7 +148,7 @@ public class SingleThreadedMyRedisHandler implements RequestHandler {
         if (command != null) {
             response = command.execute(commandArgs);
         } else {
-            response = "-ERR unknown command '" + commandName + "'\r\n";
+            response = RESPUtils.encodeError( "ERR Wrong Command or its not implemented yet");
         }
 
         // Send response to the client
