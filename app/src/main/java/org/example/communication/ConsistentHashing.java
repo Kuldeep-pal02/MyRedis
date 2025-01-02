@@ -17,7 +17,7 @@ public class ConsistentHashing implements IRouteStrategy{
         int requestedPosition = request.getPosition();
         Route ans = null;
         for( IConnection connection : consistentHashRing ){
-            if( requestedPosition < connection.getPosition() ){
+            if( requestedPosition > connection.getPosition() ){
                 continue;
             }else{
                 ans = new Route( connection );
