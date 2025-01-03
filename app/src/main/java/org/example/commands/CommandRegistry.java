@@ -31,6 +31,8 @@ public class CommandRegistry {
         registerCommand("ECHO", new EchoCommand());
         registerCommand("SET", new SetCommand( dataStore ));
         registerCommand("GET", new GetCommand( dataStore ));
+
+        registerCommand("BF.RESERVE", new BFReserveCommand( dataStore ));
     }
 
 }
