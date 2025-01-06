@@ -23,6 +23,6 @@ public class GetCommand implements IRedisCommand {
             return RESPUtils.encodeSimpleString( null );
             //return "$-1\r\n";
         }
-        return "$" + value.getLength() + "\r\n" + value.getObj() + "\r\n";
+        return RESPUtils.encodeCustomObject( value );
     }
 }

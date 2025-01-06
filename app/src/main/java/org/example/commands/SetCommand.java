@@ -34,11 +34,13 @@ public class SetCommand implements IRedisCommand{
                 // Add the key-value pair with TTL
                 CustomMyRedisObject redisObject = new CustomMyRedisObject();
                 redisObject.setObj( value );
+                redisObject.setType( 2 );
                 redisObject.setTtl( ttl );
                 dataStore.add(key, redisObject);
             } else {
                 // Add the key-value pair without TTL
                 CustomMyRedisObject redisObject = new CustomMyRedisObject();
+                redisObject.setType( 2 );
                 redisObject.setObj( value );
                 dataStore.add(key, redisObject);
             }

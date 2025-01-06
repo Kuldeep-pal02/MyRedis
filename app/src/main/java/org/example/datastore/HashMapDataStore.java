@@ -25,7 +25,9 @@ public class HashMapDataStore implements  IDataStore<String, CustomMyRedisObject
 
         // Check if the TTL has expired
         if (redisObject != null && redisObject.getTtl() > 0) {
-            if (System.currentTimeMillis() > redisObject.getTtl()) {
+            long currTime = System.currentTimeMillis();
+            boolean isExpired =  currTime > redisObject.getTtl()  ;
+            if ( isExpired ) {
                 // Remove expired object
                 map.remove(key);
                 return null;

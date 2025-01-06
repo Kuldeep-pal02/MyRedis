@@ -28,7 +28,7 @@ public class CustomMyRedisObject {
     }
 
     public void setTtl(long ttl) {
-        this.ttl = ttl;
+        this.ttl =  System.currentTimeMillis() + ttl*1000;
     }
 
     public int getLength() {

@@ -12,7 +12,7 @@ public class SortedSet {
     public void add( String key, Double score){
         if(scoreMap.containsKey( key ) ){
             double oldScore = scoreMap.get( key );
-            skipList.remove( key ,score);
+            skipList.remove( key ,oldScore);
         }
         skipList.add( key, score );
         scoreMap.put( key, score );
